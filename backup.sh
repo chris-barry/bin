@@ -6,7 +6,7 @@
 
 # TODO Offsite backups with rsync
 
-VERSION=0.2
+VERSION=0.3
 ENC="aes-256-cbc"
 
 # This folder contains a list of symbolic links
@@ -14,61 +14,42 @@ ENC="aes-256-cbc"
 LOCAL="$HOME/.backup-links"
 
 # The name of your backup
-OUTPUT="`date "+%F.%T-backup.tar.gz.aes"`"
+OUTPUT="$(date "+%F.%T-backup.tar.gz.aes")"
 
 # Where to store your backups (should be a flash drive)
 #REMOTE="$HOME/Desktop"
 REMOTE="/media/Backup"
 
 snapshot() {
-	PASS="`pass general/backup`"
+	PASS="$(pass general/backup)"
 	tar zcfh - $LOCAL |openssl enc $ENC -salt -k pass:$PASS > "$REMOTE/$OUTPUT"
 }
 
 # $1 = encrypted backup
 recover() {
-	PASS="`pass general/backup`"
+	PASS="$(pass general/backup)"
 	openssl $ENC -d -k pass:$PASS -in $1 |tar xz
 }
 
 usage() {
-	echo "Barry Backup" $VERSION
-	echo "$0 snapshot"
-	echo "	Makes a backup"
-	echo "$0 recover [file]"
-	echo "	Decrypts, and untars a file to your current directory"
-	echo "$0 usage"
-	echo "	Prints this message"
-	echo "$0 version"
-	echo "	Prints version number"
+	echo "Options"
+	echo " -b		Create backup"
+	echo " -r [file]	Recover file"
+	echo " -v		Version"
+	echo " -h		Print this message"
 }
 
 main() {
-	case "$1" in
-	'snapshot')
-		if [ -w $REMOTE ]
-		then
-			snapshot
-		else
-			echo "Remote directory not writable"
-		fi
-		;;
-	'recover')
-		if [ -f $2 ]
-		then
-			recover $2
-		else
-			echo "Cannot find $2"
-		fi
-		;;
-	'version')
-		echo $VERSION
-		;;
-	*)
-		usage
-		;;
-	esac
-
+	while getopts ":rbvh" OPTION
+	do
+		case $OPTION in
+			h) usage; exit 0;;
+			b) snapshot; exit 0;;
+			r) recover $OPTARG; exit 0;;
+			v) version; exit 0;;
+			?) echo "Invalid argument."; usage ;;
+		esac
+	done
 	exit 0
 }
 

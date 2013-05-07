@@ -9,13 +9,13 @@ ACPIPATH="/sys/class/backlight/acpi_video0"
 
 case $1 in
 	-inc)
-		CHANGE=$( expr `cat $ACPIPATH/brightness` + $2 )
-		if [ $CHANGE -le `cat $ACPIPATH/max_brightness` ];then
+		CHANGE=$( expr $(cat $ACPIPATH/brightness) + $2 )
+		if [ $CHANGE -le $(cat $ACPIPATH/max_brightness) ];then
 			echo $CHANGE >$ACPIPATH/brightness
 		fi
 	;;
 	-dec)
-		CHANGE=$( expr `cat $ACPIPATH/brightness` - $2 )
+		CHANGE=$( expr $(cat $ACPIPATH/brightness) - $2 )
 		if [ $CHANGE -ge 0 ];then
 			echo $CHANGE >$ACPIPATH/brightness
 		fi
