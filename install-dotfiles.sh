@@ -19,7 +19,7 @@ while [ $# -ne 0 ]
 do
 	if [ -f "$HOME/.dotfiles/$1" ]; then 
 		echo "ln -s $HOME/.dotfiles/$1 $HOME/.$1"
-		#ln -s .dotfile/$1 $HOME/.$1
+		ln -s $HOME/.dotfiles/$1 $HOME/.$1
 	else
 		echo "Cannot find $1"
 	fi
