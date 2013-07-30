@@ -9,11 +9,10 @@ CYCLE_LENGTH=5400
 
 sleep_now() {
 	echo "If you fall asleep now, you should wake up at one of these times"
-	echo "(the last two are optimal)"
 	for VAR in {1..6}
 	do
 		CURRENT=$(expr $CURRENT + $CYCLE_LENGTH)
-		echo $(date -d @$CURRENT "+%H:%M %p")
+		echo $(date -d @$CURRENT "+%H:%M")
 	done
 }
 
@@ -24,7 +23,7 @@ wake_at() {
 	while [[ $(expr $WAKE - $CURRENT) -gt 0 ]]
 	do
 		WAKE=$(expr $WAKE - $CYCLE_LENGTH)
-		echo $(date -d @$WAKE "+%H:%M %p")
+		echo $(date -d @$WAKE "+%H:%M")
 	done
 }
 
