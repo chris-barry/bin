@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Helps you keep track of time.
 # Depends on libnotify
@@ -21,6 +21,9 @@ usage() {
 }
 
 main() {
+	DISTRACT=15
+	FOCUS=45
+
 	while getopts ":f:d:h" OPTION
 	do
 		case $OPTION in
@@ -30,27 +33,19 @@ main() {
 			?) echo "Invalid argument."; usage ;;
 		esac
 	done
+	
+	FOCUS=$(($FOCUS*60))
+	DISTRACT=$(($DISTRACT*60))
 
-	# Defaults
-	if [ -z "$DISTRACT" ]
-	then
-		DISTRACT=15
-	fi
-
-	if [ -z "$FOCUS" ]
-	then
-		FOCUS=45
-	fi
-
-	let "FOCUS *= 60"
-	let "DISTRACT *= 60"
+#	let "FOCUS *= 60"
+#	let "DISTRACT *= 60"
 
 	while true; do
-		notify-send $APP "It's time to focus for $(expr $FOCUS / 60) minutes!"
+		notify-send $APP "It's time to focus for $(($FOCUS / 60)) minutes!"
 		echo "Focus"
 		sleep $FOCUS
 
-		notify-send $APP "You can be distracted for $(expr $DISTRACT / 60) minutes."
+		notify-send $APP "You can be distracted for $(($DISTRACT / 60)) minutes."
 		echo "Distraction"
 		sleep $DISTRACT
 	done

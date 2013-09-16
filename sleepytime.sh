@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Script that emulates the results of http://sleepyti.me
 
@@ -10,9 +10,9 @@ CYCLE_LENGTH=5400
 sleep_now() {
 	echo "If you fall asleep now, you should wake up at one of these times"
 	echo "(the last two are optimal)"
-	for VAR in {1..6}
+	for VAR in 1 2 3 4 5 6
 	do
-		CURRENT=$(expr $CURRENT + $CYCLE_LENGTH)
+		CURRENT=$(($CURRENT + $CYCLE_LENGTH))
 		echo $(date -d @$CURRENT "+%H:%M %p")
 	done
 }
@@ -21,9 +21,9 @@ sleep_now() {
 wake_at() {
 	WAKE=$1
 
-	while [[ $(expr $WAKE - $CURRENT) -gt 0 ]]
+	while [[ $(($WAKE - $CURRENT)) -gt 0 ]]
 	do
-		WAKE=$(expr $WAKE - $CYCLE_LENGTH)
+		WAKE=$(($WAKE - $CYCLE_LENGTH))
 		echo $(date -d @$WAKE "+%H:%M %p")
 	done
 }
@@ -36,7 +36,7 @@ usage() {
 }
 
 main() {
-	if [ $# == 0 ]; then
+	if [ $# -eq 0 ]; then
 		sleep_now
 		exit 0
 	fi
