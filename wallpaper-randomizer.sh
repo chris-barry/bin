@@ -8,6 +8,6 @@ SETTER="feh --bg-scale"
 
 while [ true ]; do
 	# TODO ignore directories in $DIR
-	$SETTER $DIR/$(ls $DIR | shuf -n1)
+	$SETTER $(find ${DIR} -type f -print0 | shuf -n1 -z)
 	sleep $TIME
 done
