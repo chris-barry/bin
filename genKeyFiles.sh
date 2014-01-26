@@ -7,7 +7,7 @@ BASE="$HOME/key"
 
 for x in {a..z}
 do
-	truecrypt--text --non-interactive --random-source=/dev/urandom --create-keyfile $BASE/$x.key
+	truecrypt --text --non-interactive --random-source=/dev/urandom --create-keyfile $BASE/$x.key
 done
 
 exit 0;
