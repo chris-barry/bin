@@ -1,13 +1,18 @@
 #!/bin/bash
 
-# This script generates keyfiles via truecrypt
 # It will output the files to ~/key/ with {a-z}.key
 
 BASE="$HOME/key"
 
-for x in {a..z}
+if [ ! -d ~/keys ]; then
+	echo "No keys directory here."
+	echo "Run, 'mkdir ~/keys'."
+	exit
+fi
+
+for x in {A..Z}
 do
-	truecrypt --text --non-interactive --random-source=/dev/urandom --create-keyfile $BASE/$x.key
+	dd if=/dev/urandom of=./keys/$x.key bs=1024 count=4
 done
 
 exit 0;
