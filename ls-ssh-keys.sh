@@ -6,7 +6,6 @@
 #
 # License: Public domain.
 
-FILES=$(find /etc/ssh \! -name '*.pub')
 FILES=$(find /etc/ssh \! -name '*.pub' -name 'ssh_host*')
 
 for key in $FILES; do
