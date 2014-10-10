@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Script that emulates the results of http://sleepyti.me
 
@@ -20,7 +20,7 @@ sleep_now() {
 wake_at() {
 	WAKE=$1
 
-	while [[ $(expr $WAKE - $CURRENT) -gt 0 ]]
+	while [[ $(($WAKE - $CURRENT)) -gt 0 ]]
 	do
 		WAKE=$(expr $WAKE - $CYCLE_LENGTH)
 		echo $(date -d @$WAKE "+%H:%M")
@@ -35,7 +35,7 @@ usage() {
 }
 
 main() {
-	if [ $# == 0 ]; then
+	if [ $# -eq 0 ]; then
 		sleep_now
 		exit 0
 	fi
