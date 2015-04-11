@@ -1,9 +1,13 @@
 #!/bin/sh
+#
+# backlight.sh - Change your backlight via ACPI.
+#
+# Authors: Chris Barry <chris@barry.im>
+#
+# License: Public domain.
 
-# Changes the brightness via ACPI
-# $ACPIPATH/brightness must be writable by the user
-
-# TODO maybe add a set option?
+# NOTE: $ACPIPATH/brightness must be writable by the user
+# TODO: maybe add a set option?
 
 ACPIPATH="/sys/class/backlight/acpi_video0"
 CURRENT=$(cat $ACPIPATH/brightness)
@@ -22,7 +26,7 @@ case $1 in
 		fi
 	;;
 	*)
-		echo $0 "[-inc | -dec ] amount"
+		echo $0 "(-inc | -dec ) <amount>"
 	;;
 esac
 

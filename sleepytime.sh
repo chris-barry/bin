@@ -1,6 +1,10 @@
 #!/bin/sh
-
-# Script that emulates the results of http://sleepyti.me
+#
+# sleepytime.sh - Cheap knockoff of <http://sleepyti.me>.
+#
+# Author: Chris Barry <chris@barry.im>
+#
+# License: Public domain.
 
 CURRENT=$(date "+%s")
 
@@ -28,10 +32,16 @@ wake_at() {
 }
 
 usage() {
-	echo "Options"
-	echo " -a HH:MM	What time to fall asleep at"
-	echo " -n		If you were to sleep now"
-	echo " -h		Shows this message"
+	echo "Usage:"
+	echo "  sleepytime.sh"
+	echo "  sleepytime.sh -n"
+	echo "  sleepytime.sh -a <HH:MM>"
+	echo "  sleepytime.sh -h"
+	echo
+	echo "Options:"
+	echo "  -a HH:MM  What time to fall asleep at."
+	echo "  -n        If you were to sleep now (default)."
+	echo "  -h        Shows this message."
 }
 
 main() {
@@ -40,12 +50,12 @@ main() {
 		exit 0
 	fi
 
-	while getopts ":a:n:h" OPTION
+	while getopts ":anh" OPTION
 	do
 		case $OPTION in
-			h) usage ;;
 			n) sleep_now ;;
 			a) wake_at $(date --date="$OPTARG tomorrow" "+%s");;
+			h) usage ;;
 			?) echo "Invalid argument."; usage ;;
 		esac
 	done

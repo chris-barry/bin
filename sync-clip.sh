@@ -9,10 +9,10 @@
 MUSIC=$HOME/Documents/clip-music/
 DRIVE=/media/clip
 FOLDER=Music/
-RSYNCFLAGS="--recursive --delete-before --copy-links"
+RSYNCFLAGS="--recursive --delete-before --copy-links -P"
 
 # TODO Ignore dumb files (image files, hidden files...)
-IGNORE="*.jpg *.JPG"
+IGNORE="*.jpg *.JPG *.m3u *.log"
 
 if [ ! -z "`mount | grep $DRIVE`" ]; then
 	# Check if there's enough room on the drive
@@ -25,7 +25,7 @@ if [ ! -z "`mount | grep $DRIVE`" ]; then
 
 	echo "Starting copy..."
 	echo rsync $RSYNCFLAGS $MUSIC "$DRIVE/$FOLDER"
-	rsync $RSYNCFLAGS $MUSIC "$DRIVE/$FOLDER"
+	sudo rsync $RSYNCFLAGS $MUSIC "$DRIVE/$FOLDER"
 	echo "Finished copy, remember to eject!"
 else
 	echo "No drive mounted."
